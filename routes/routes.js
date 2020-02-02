@@ -1,14 +1,20 @@
 const express = require('express')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const User = require('../app/models/user.model')
 
 const router = express.Router()
 
-router.post('/signup', passport.authenticate('signup', { session: false }), async (req, res, next) => {
-	res.json({
-		message: "Signup Successful",
-		user: req.user
-	})
+router.post('/signup', async (req, res) => {
+	// Create a new user
+	try {
+		const user = new User(req.body)
+		await user.save()
+		const token = await user.generateAuthToken()
+		res.status(201).send({ user, token })
+	} catch (error) {
+		res.status(400).send(error)
+	}
 })
 
 module.exports = router
