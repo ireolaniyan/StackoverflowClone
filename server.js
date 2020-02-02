@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const UserModel = require('./app/models/user.model.js')
 
 const app = express()
+
+require('./auth/auth.js')
 
 // parse requests of content-type - application/x-www-form-urlencoded and application/json
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -19,6 +22,8 @@ mongoose.connect(database.url, { useNewUrlParser: true, useUnifiedTopology: true
 	process.exit()
 })
 
+const routes = require('./routes/routes.js')
+app.use('/', routes)
 
 app.get('/', (req, res) => {
 	res.json({ "message": "Welcome to Stack Overflow" })

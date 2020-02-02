@@ -1,12 +1,16 @@
 const passport = require('passport')
 const localStrategy = require('passport-local').Strategy
-const UserModel = require('../app/models/user.model.js')
+const UserModel = require('../app/models/user.model')
 
 // Passport middleware to handle User signup
 passport.use('signup', new localStrategy({
-	usernameField: 'email',
+	passReqToCallBack: true,
+	firstNameField: 'first_name',
+	lastNameField: 'last_name',
+	emailField: 'email',
 	passwordField: 'password'
-}, async (first_name, last_name, email, password, done) => {
+}, async (req, first_name, last_name, email, password, done) => {
+	console.log('here');
 	try {
 
 		//Save the user's information to the database
@@ -14,13 +18,15 @@ passport.use('signup', new localStrategy({
 		return done(null, user)
 
 	} catch (error) {
-		done(error)
+		console.log(error);
+
+		// return done(error)
 	}
 }))
 
 // Passport middleware to handle User signin
 passport.use('login', new localStrategy({
-	usernameField: 'email',
+	emailField: 'email',
 	passwordField: 'password'
 }, async (email, password, done) => {
 	try {
@@ -44,3 +50,5 @@ passport.use('login', new localStrategy({
 		return done(error)
 	}
 }))
+
+module.exports = passport
