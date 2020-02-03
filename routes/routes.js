@@ -7,9 +7,11 @@ const auth = require('../middleware/auth.js')
 const router = express.Router()
 
 const users = require('../app/controllers/user.controller.js')
+const questions = require('../app/controllers/question.controller.js')
 
 router.post('/signup', users.create);
 router.post('/signin', users.signin);
 router.get('/users/me', auth, users.profile);
 
+router.post('/ask-question', auth, questions.create)
 module.exports = router
