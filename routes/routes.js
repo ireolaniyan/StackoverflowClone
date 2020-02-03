@@ -17,4 +17,5 @@ router.post('/ask-question', auth, questions.create)
 router.get('/fetch-user-questions', auth, questions.getUserQuestions)
 router.get('/fetch-all-questions', questions.getAllQuestions)
 router.get('/question/:question_id', questions.findOneQuestion)
+router.put('/vote-question/:question_id', auth, questions.voteQuestion)
 module.exports = router
