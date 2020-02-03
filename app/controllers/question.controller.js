@@ -15,11 +15,24 @@ exports.create = async (req, res) => {
 	}
 }
 
-exports.getUserQuestion = async (req, res) => {
+exports.getUserQuestions = async (req, res) => {
 	try {
 		const user = req.user
 
 		const questions = await Question.find({ user_id: user._id })
+
+		res.status(200).send(questions)
+
+	} catch (error) {
+		res.status(500).send({
+			message: err.message || "An error occurred while retrieving questions."
+		})
+	}
+}
+
+exports.getAllQuestions = async (req, res) => {
+	try {
+		const questions = await Question.find()
 
 		res.status(200).send(questions)
 
