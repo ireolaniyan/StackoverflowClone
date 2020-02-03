@@ -22,10 +22,10 @@ mongoose.connect(database.url, { useNewUrlParser: true, useUnifiedTopology: true
 	process.exit()
 })
 
-const routes = require('./routes/routes.js')
+const router = require('./routes/routes.js')
 
 app.use(express.json())
-app.use(routes)
+app.use(router)
 
 app.get('/', (req, res) => {
 	res.json({ "message": "Welcome to Stack Overflow" })

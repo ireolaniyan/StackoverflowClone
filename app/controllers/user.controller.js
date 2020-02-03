@@ -1,8 +1,9 @@
 const User = require('../models/user.model.js')
 
-async function create(req, res) {
+exports.create = async (req, res) => {
 	// Create a new user
 	try {
+		console.log('Here')
 		const user = new User(req.body)
 		await user.save()
 		const token = await user.generateAuthToken()
@@ -12,7 +13,7 @@ async function create(req, res) {
 	}
 }
 
-async function siginin(req, res) {
+exports.signin = async (req, res) => {
 	//Login a registered user
 	try {
 		const { email, password } = req.body
@@ -32,4 +33,12 @@ async function siginin(req, res) {
 
 }
 
-module.exports = { create, siginin }
+exports.profile = (req, res) => {
+	try {
+		res.send(req.user)
+	} catch (error) {
+		res.status(400).send(error)
+	}
+}
+
+// module.exports = { create, siginin, profile }
