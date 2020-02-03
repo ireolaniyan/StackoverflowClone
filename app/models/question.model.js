@@ -6,8 +6,14 @@ const QuestionSchema = new Schema({
 	user_id: String,
 	title: String,
 	content: String,
-	upvote: Number,
-	downvote: Number
+	upvote: {
+		type: Number,
+		default: 0
+	},
+	downvote: {
+		type: Number,
+		default: 0
+	}
 })
 
 const QuestionModel = mongoose.model('Question', QuestionSchema)
