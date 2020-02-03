@@ -1,5 +1,5 @@
 const Question = require('../models/question.model.js')
-
+const Answer = require('../models/answer.model.js')
 
 exports.create = async (req, res) => {
 	try {
@@ -19,7 +19,7 @@ exports.getUserQuestions = async (req, res) => {
 	try {
 		const user = req.user
 
-		const questions = await Question.find({ user_id: user._id })
+		const questions = await Question.find({ user_id: user._id }).populate('answers')
 
 		res.status(200).send(questions)
 

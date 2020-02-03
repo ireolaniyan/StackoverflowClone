@@ -4,7 +4,10 @@ const Schema = mongoose.Schema
 
 const AnswerSchema = new Schema({
 	user_id: String,
-	question_id: String,
+	question: {
+		type: Schema.Types.ObjectId,
+		ref: 'Question'
+	},
 	answer: String,
 	upvote: {
 		type: Number,

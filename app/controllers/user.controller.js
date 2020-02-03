@@ -3,7 +3,6 @@ const User = require('../models/user.model.js')
 exports.create = async (req, res) => {
 	// Create a new user
 	try {
-		console.log('Here')
 		const user = new User(req.body)
 		await user.save()
 		const token = await user.generateAuthToken()

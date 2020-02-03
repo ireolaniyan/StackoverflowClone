@@ -15,11 +15,28 @@ exports.create = async (req, res) => {
 		const answer = new Answer(req.body)
 
 		answer.user_id = user._id
-		answer.question_id = req.params.question_id
-		await answer.save()
+		answer.question = question
+
+		question.answers.push(answer)
+		await question.save()
 
 		res.status(201).send({ answer })
 	} catch (error) {
+		console.log('error ', error);
+
 		res.status(400).send(error)
+	}
+}
+
+exports.getAllAnswers = async (req, res) => {
+	try {
+		const answers = await Answer.find()
+
+		res.status(200).send(answers)
+
+	} catch (error) {
+		res.status(500).send({
+			message: error.message || "An error occurred while retrieving answers."
+		})
 	}
 }

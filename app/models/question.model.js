@@ -13,7 +13,8 @@ const QuestionSchema = new Schema({
 	downvote: {
 		type: Number,
 		default: 0
-	}
+	},
+	answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }]
 })
 
 const QuestionModel = mongoose.model('Question', QuestionSchema)

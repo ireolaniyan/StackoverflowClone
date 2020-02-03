@@ -21,4 +21,5 @@ router.get('/question/:question_id', questions.findOneQuestion)
 router.put('/vote-question/:question_id', auth, questions.voteQuestion)
 
 router.post('/answer-question/:question_id', auth, answers.create)
+router.get('/all-answers', answers.getAllAnswers)
 module.exports = router

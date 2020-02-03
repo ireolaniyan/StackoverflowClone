@@ -15,8 +15,5 @@ const auth = async (req, res, next) => {
 	} catch (error) {
 		res.status(401).send({ error: 'Not authorized to access this resource' })
 	}
-
-	console.log('Here')
-
 }
 module.exports = auth
