@@ -14,4 +14,5 @@ router.post('/signin', users.signin);
 router.get('/users/me', auth, users.profile);
 
 router.post('/ask-question', auth, questions.create)
+router.get('/fetch-user-questions', auth, questions.getUserQuestion)
 module.exports = router
