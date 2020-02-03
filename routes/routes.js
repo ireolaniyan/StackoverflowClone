@@ -8,6 +8,7 @@ const router = express.Router()
 
 const users = require('../app/controllers/user.controller.js')
 const questions = require('../app/controllers/question.controller.js')
+const answers = require('../app/controllers/answer.controller.js')
 
 router.post('/signup', users.create);
 router.post('/signin', users.signin);
@@ -18,4 +19,6 @@ router.get('/fetch-user-questions', auth, questions.getUserQuestions)
 router.get('/fetch-all-questions', questions.getAllQuestions)
 router.get('/question/:question_id', questions.findOneQuestion)
 router.put('/vote-question/:question_id', auth, questions.voteQuestion)
+
+router.post('/answer-question/:question_id', auth, answers.create)
 module.exports = router
