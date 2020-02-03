@@ -77,15 +77,15 @@ exports.voteQuestion = async (req, res) => {
 		}
 
 		// Validate Request
-		if (!req.body.status) {
+		if (req.body.status == undefined || req.body.status == null) {
 			return res.status(400).send({
-				message: "Question content can not be empty"
+				message: "Question vote can not be empty"
 			})
 		}
 
 		if (req.body.status == 1) {
 			question.upvote = question.upvote + 1
-		} else {
+		} else if (req.body.status == 0) {
 			question.downvote = question.downvote + 1
 		}
 
