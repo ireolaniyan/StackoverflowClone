@@ -19,6 +19,7 @@ exports.create = async (req, res) => {
 
 		question.answers.push(answer)
 		await question.save()
+		await answer.save()
 
 		res.status(201).send({ answer })
 	} catch (error) {

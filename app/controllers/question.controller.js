@@ -32,7 +32,7 @@ exports.getUserQuestions = async (req, res) => {
 
 exports.getAllQuestions = async (req, res) => {
 	try {
-		const questions = await Question.find()
+		const questions = await Question.find().populate('answers')
 
 		res.status(200).send(questions)
 
@@ -45,7 +45,7 @@ exports.getAllQuestions = async (req, res) => {
 
 exports.findOneQuestion = async (req, res) => {
 	try {
-		const question = await Question.findById(req.params.question_id)
+		const question = await Question.findById(req.params.question_id).populate('answers')
 
 		if (!question) {
 			return res.status(400).send({

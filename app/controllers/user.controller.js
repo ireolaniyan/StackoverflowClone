@@ -6,9 +6,17 @@ exports.create = async (req, res) => {
 		const user = new User(req.body)
 		await user.save()
 		const token = await user.generateAuthToken()
-		res.status(201).send({ user, token })
+		res.status(201).send({
+			success: true,
+			data: user,
+			message: "Successfully Created User"
+		})
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({
+			success: false,
+			data: error,
+			message: "An Unexpected Error Occured"
+		})
 	}
 }
 
