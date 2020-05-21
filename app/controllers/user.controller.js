@@ -12,10 +12,12 @@ exports.create = async (req, res) => {
 			message: "Successfully Created User"
 		})
 	} catch (error) {
-		res.status(400).send({
+		console.log("Create User Error => ", error);
+
+		res.status(500).send({
 			success: false,
 			data: error,
-			message: "An Unexpected Error Occured"
+			error: "An Unexpected Error Occured"
 		})
 	}
 }
@@ -27,23 +29,47 @@ exports.signin = async (req, res) => {
 		const userData = await User.findByCredentials(email, password)
 
 		if (userData.status == false) {
-			return res.status(401).send({ error: userData.error })
+			return res.status(401).send({
+				success: false,
+				data: userData.error,
+				error: "An Unexpected Error Occured"
+			})
 		}
 
 		const user = userData.data
 		const token = await user.generateAuthToken()
 
-		res.send({ user, token })
+		res.send({
+			success: true,
+			data: user,
+			message: "Sign-In Successful"
+		})
 	} catch (error) {
-		res.status(400).send(error)
+		console.log("Sign In Error => ", error);
+
+		res.status(500).send({
+			success: false,
+			data: error,
+			error: "An Unexpected Error Occured"
+		})
 	}
 
 }
 
 exports.profile = (req, res) => {
 	try {
-		res.send(req.user)
+		res.send({
+			success: true,
+			data: req.user,
+			message: "Successfully Fetched Profile"
+		})
 	} catch (error) {
-		res.status(400).send(error)
+		console.log("Get Profile Error => ", error);
+
+		res.status(500).send({
+			success: false,
+			data: error,
+			error: "An Unexpected Error Occured"
+		})
 	}
 }

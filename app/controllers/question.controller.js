@@ -9,9 +9,19 @@ exports.create = async (req, res) => {
 		question.user_id = user._id
 		await question.save()
 
-		res.status(201).send({ question })
+		res.status(201).send({
+			success: true,
+			data: question,
+			message: "Successfully Posted Question"
+		})
 	} catch (error) {
-		res.status(400).send(error)
+		console.log("Create Question Error ", error);
+
+		res.status(500).send({
+			success: false,
+			data: error,
+			error: "An Unexpected Error Occured"
+		})
 	}
 }
 
@@ -21,11 +31,19 @@ exports.getUserQuestions = async (req, res) => {
 
 		const questions = await Question.find({ user_id: user._id }).populate('answers')
 
-		res.status(200).send(questions)
+		res.status(200).send({
+			success: true,
+			data: questions,
+			message: "Successfully Fetched User's Questions"
+		})
 
 	} catch (error) {
+		console.log("Get User Questions Error => ", error);
+
 		res.status(500).send({
-			message: error.message || "An error occurred while retrieving questions."
+			success: false,
+			data: error,
+			error: "An Unexpected Error Occured"
 		})
 	}
 }
@@ -34,11 +52,19 @@ exports.getAllQuestions = async (req, res) => {
 	try {
 		const questions = await Question.find().populate('answers')
 
-		res.status(200).send(questions)
+		res.status(200).send({
+			success: true,
+			data: questions,
+			message: "Successfully Fetched All Questions"
+		})
 
 	} catch (error) {
+		console.log('Get All Questions Error => ', error);
+
 		res.status(500).send({
-			message: error.message || "An error occurred while retrieving questions."
+			success: false,
+			data: error,
+			error: "An Unexpected Error Occured"
 		})
 	}
 }
@@ -49,18 +75,27 @@ exports.findOneQuestion = async (req, res) => {
 
 		if (!question) {
 			return res.status(400).send({
+				success: false,
 				message: "Question not found with id " + req.params.question_id
 			})
 		}
 
-		res.status(200).send(question)
+		res.status(200).send({
+			success: true,
+			data: question,
+			message: "Successfully Fetched Question"
+		})
 	} catch (error) {
+		console.log('Find One Question Error => ', error);
+
 		if (error.kind === 'ObjectId') {
 			return res.status(400).send({
+				success: false,
 				message: "Question not found with id " + req.params.question_id
 			})
 		}
 		return res.status(500).send({
+			success: false,
 			message: "Error retrieving question with id " + req.params.question_id
 		})
 	}
@@ -68,18 +103,20 @@ exports.findOneQuestion = async (req, res) => {
 
 exports.voteQuestion = async (req, res) => {
 	try {
-		const question = await Question.findById(req.params.question_id)
+		const question = await Question.findById(req.params.question_id).populate("answers")
 
 		if (!question) {
 			return res.status(404).send({
-				message: "Question not found with id " + req.params.question_id
+				success: false,
+				message: "Question Not Found With ID " + req.params.question_id
 			})
 		}
 
 		// Validate Request
 		if (req.body.status == undefined || req.body.status == null) {
 			return res.status(400).send({
-				message: "Question vote can not be empty"
+				success: false,
+				message: "Question Vote Can Not Be Empty"
 			})
 		}
 
@@ -91,17 +128,23 @@ exports.voteQuestion = async (req, res) => {
 
 		await question.save()
 
-		res.status(200).send(question)
+		res.status(200).send({
+			success: true,
+			data: question,
+			message: "Successfully Voted Question"
+		})
 
 	} catch (error) {
-		console.log('error ', error);
+		console.log('Vote Question Error => ', error);
 
 		if (error.kind === 'ObjectId') {
 			return res.status(404).send({
+				success: false,
 				message: "Question not found with id " + req.params.question_id
 			})
 		}
 		return res.status(500).send({
+			success: false,
 			message: "Error updating question with id " + req.params.question_id
 		})
 	}
