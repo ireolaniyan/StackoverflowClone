@@ -4,10 +4,6 @@ const Schema = mongoose.Schema
 
 const AnswerSchema = new Schema({
 	user_id: String,
-	question: {
-		type: Schema.Types.ObjectId,
-		ref: 'Question'
-	},
 	answer: String,
 	upvote: {
 		type: Number,
@@ -16,6 +12,10 @@ const AnswerSchema = new Schema({
 	downvote: {
 		type: Number,
 		default: 0
+	},
+	question: {
+		type: Schema.Types.ObjectId,
+		ref: 'Question'
 	}
 })
 
