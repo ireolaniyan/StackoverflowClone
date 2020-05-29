@@ -19,6 +19,7 @@ router.get('/fetch-user-questions', auth, questions.getUserQuestions)
 router.get('/fetch-all-questions', questions.getAllQuestions)
 router.get('/question/:question_id', questions.findOneQuestion)
 router.put('/vote-question/:question_id', auth, questions.voteQuestion)
+router.post('/search-question', auth, questions.searchQuestion)
 
 router.post('/answer-question/:question_id', auth, answers.create)
 router.get('/all-answers', answers.getAllAnswers)
