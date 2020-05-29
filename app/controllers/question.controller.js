@@ -10,7 +10,7 @@ exports.create = async (req, res) => {
 		question.user_id = user._id
 		await question.save()
 
-		await questionIndex.createQuestionIndex(question)
+		await questionIndex.createQuestionIndex(question)									// invoke elastic search question index creation
 
 		res.status(201).send({
 			success: true,
@@ -157,13 +157,11 @@ exports.searchQuestion = async (req, res) => {
 	try {
 		const searchText = req.body
 
-		const result = await questionIndex.searchEngine(searchText)
-
-		console.log('search res ', result);
+		const result = await questionIndex.searchEngine(searchText) || {}
 
 		res.status(200).send({
 			success: true,
-			// data: question,
+			data: result.data || "No data returned",
 			message: result.message
 		})
 	} catch (error) {
