@@ -5,7 +5,8 @@ exports.create = async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
-		const token = await user.generateAuthToken()
+		await user.generateAuthToken()
+
 		res.status(201).send({
 			success: true,
 			data: user,
@@ -37,7 +38,7 @@ exports.signin = async (req, res) => {
 		}
 
 		const user = userData.data
-		const token = await user.generateAuthToken()
+		await user.generateAuthToken()
 
 		res.send({
 			success: true,
