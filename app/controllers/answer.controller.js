@@ -1,5 +1,6 @@
 const Answer = require('../models/answer.model.js')
 const Question = require('../models/question.model.js')
+const searchEngine = require('../../utils/searchengine')
 
 exports.create = async (req, res) => {
 	try {
@@ -21,6 +22,8 @@ exports.create = async (req, res) => {
 		question.answers.push(answer)
 		await question.save()
 		await answer.save()
+
+		await searchEngine.createAnswerIndex(answer)
 
 		res.status(201).send({
 			success: true,

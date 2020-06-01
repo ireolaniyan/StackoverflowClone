@@ -1,6 +1,6 @@
 const Question = require('../models/question.model.js')
 const Answer = require('../models/answer.model.js')
-const questionIndex = require('../../utils/searchengine.js')
+const searchEngine = require('../../utils/searchengine.js')
 
 exports.create = async (req, res) => {
 	try {
@@ -10,7 +10,7 @@ exports.create = async (req, res) => {
 		question.user_id = user._id
 		await question.save()
 
-		await questionIndex.createQuestionIndex(question)									// invoke elastic search question index creation
+		await searchEngine.createQuestionIndex(question)									// invoke elastic search question index creation
 
 		res.status(201).send({
 			success: true,
@@ -149,28 +149,6 @@ exports.voteQuestion = async (req, res) => {
 		return res.status(500).send({
 			success: false,
 			message: "Error updating question with id " + req.params.question_id
-		})
-	}
-}
-
-exports.searchQuestion = async (req, res) => {
-	try {
-		const searchText = req.body
-
-		const result = await questionIndex.searchEngine(searchText) || {}
-
-		res.status(200).send({
-			success: true,
-			data: result.data || "No data returned",
-			message: result.message
-		})
-	} catch (error) {
-		console.log("Search Question Error ", error);
-
-		res.status(500).send({
-			success: false,
-			data: error,
-			error: "An Unexpected Error Occured"
 		})
 	}
 }

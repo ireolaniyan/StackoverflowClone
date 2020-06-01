@@ -9,6 +9,7 @@ const router = express.Router()
 const users = require('../app/controllers/user.controller.js')
 const questions = require('../app/controllers/question.controller.js')
 const answers = require('../app/controllers/answer.controller.js')
+const search = require('../app/controllers/search.controller.js')
 
 router.post('/signup', users.create);
 router.post('/signin', users.signin);
@@ -19,7 +20,9 @@ router.get('/fetch-user-questions', auth, questions.getUserQuestions)
 router.get('/fetch-all-questions', questions.getAllQuestions)
 router.get('/question/:question_id', questions.findOneQuestion)
 router.put('/vote-question/:question_id', auth, questions.voteQuestion)
-router.post('/search-question', auth, questions.searchQuestion)
+
+router.post('/search-question', auth, search.searchQuestion)
+router.post('/search-answer', auth, search.searchAnswer)
 
 router.post('/answer-question/:question_id', auth, answers.create)
 router.get('/all-answers', answers.getAllAnswers)
