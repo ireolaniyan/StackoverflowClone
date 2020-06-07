@@ -4,7 +4,7 @@
 	"description": "A simple API to replicate stack overflow",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "mocha 'tests/*.js'",
 		"dev": "nodemon server.js"
 	},
 	"repository": {
@@ -21,6 +21,7 @@
 		"bcrypt-nodejs": "0.0.3",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
+		"chai-http": "^4.3.0",
 		"dotenv": "^8.2.0",
 		"elasticsearch": "^16.7.1",
 		"env-cmd": "^10.0.1",
@@ -33,5 +34,9 @@
 		"passport-local": "^1.0.0",
 		"randomstring": "^1.1.5",
 		"validator": "^12.2.0"
+	},
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"mocha": "^7.2.0"
 	}
 }
