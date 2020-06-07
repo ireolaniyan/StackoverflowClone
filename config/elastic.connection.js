@@ -5,4 +5,4 @@ const esClient = new elasticsearch.Client({
   log: 'error'
 });
 
-module.exports = esClient;  
+module.exports = esClient;

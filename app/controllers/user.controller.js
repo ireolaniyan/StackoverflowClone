@@ -40,7 +40,7 @@ exports.signin = async (req, res) => {
 		const user = userData.data
 		await user.generateAuthToken()
 
-		res.send({
+		res.status(200).send({
 			success: true,
 			data: user,
 			message: "Sign-In Successful"
