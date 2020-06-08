@@ -1,6 +1,7 @@
-const Question = require('../models/question.model.js')
-const Answer = require('../models/answer.model.js')
+const { dbModels } = require("../../config/database.config")
 const searchEngine = require('../../utils/searchengine.js')
+
+const Question = dbModels.question
 
 exports.create = async (req, res) => {
 	try {

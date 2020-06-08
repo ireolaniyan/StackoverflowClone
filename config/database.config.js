@@ -1,10 +1,13 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
+const models = require('../app/models');
+
 const db_url = (process.env.NODE_ENV === 'test') ? 'mongodb://127.0.0.1:27017/stack-overflow-test' : 'mongodb://127.0.0.1:27017/stack-overflow'
 
 mongoose.Promise = global.Promise
 let dbConnection
+let dbModels = {}
 
 function initDb() {
 	mongoose.connect(db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((db) => {
@@ -20,4 +23,8 @@ function getDb() {
 	return dbConnection
 }
 
-module.exports = { initDb, getDb }
+dbModels.user = models.UserModel
+dbModels.question = models.QuestionModel
+dbModels.answer = models.AnswerModel
+
+module.exports = { initDb, getDb, dbModels }

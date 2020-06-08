@@ -1,4 +1,6 @@
-const User = require('../models/user.model.js')
+const { dbModels } = require("../../config/database.config")
+
+const User = dbModels.user
 
 const Joi = require('joi')
 

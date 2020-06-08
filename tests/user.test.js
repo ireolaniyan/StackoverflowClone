@@ -1,4 +1,3 @@
-const assert = require("assert");
 const chaiHttp = require("chai-http");
 const chai = require("chai");
 const { expect } = require('chai');
