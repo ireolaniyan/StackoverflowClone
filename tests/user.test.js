@@ -38,4 +38,21 @@ describe("Users", () => {
     })
   })
 
+  describe("Authenticate User", () => {
+    it("Should signin successfully", async () => {
+      const res = await chai.request(app).post("/signin").send({ email: userDetails.email, password: userDetails.password })
+      expect(res.status).to.eqls(200)
+      expect(res.body.success).to.eqls(true)
+      expect(res.body.data).to.be.an('object')
+      expect(res.body.message).to.eqls("Sign-In Successful")
+    })
+
+    it("Should not signin for invalid credentials", async () => {
+      const res = await chai.request(app).post("/signin").send({ email: "xyz@gmail.com", password: userDetails.password })
+      expect(res.status).to.eqls(401)
+      expect(res.body.success).to.eqls(false)
+      expect(res.body.data).to.eqls("Invalid login credentials")
+    })
+  })
+
 })
