@@ -8,7 +8,6 @@ let dbConnection
 
 function initDb() {
 	mongoose.connect(db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((db) => {
-		// console.log('db ', db);
 		dbConnection = db
 		console.log("Successfully connected to the database 😃");
 	}).catch(err => {

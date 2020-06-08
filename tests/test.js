@@ -29,6 +29,13 @@ describe("Users", () => {
       expect(res.body.data).to.be.an('object');
       expect(res.body.message).to.eqls("Successfully Created User")
     })
+
+    it("Should not add a user with existing email", async () => {
+      const res = await chai.request(app).post("/signup").send(userDetails)
+      expect(res.status).to.eqls(400);
+      expect(res.body.success).to.eqls(false);
+      expect(res.body.message).to.eqls("Email Already Exists")
+    })
   })
 
 })
