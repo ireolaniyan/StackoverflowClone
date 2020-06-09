@@ -110,7 +110,7 @@ exports.voteQuestion = async (req, res) => {
 		const question = await Question.findById(req.params.question_id).populate("answers")
 
 		if (!question) {
-			return res.status(404).send({
+			return res.status(400).send({
 				success: false,
 				message: "Question Not Found With ID " + req.params.question_id
 			})

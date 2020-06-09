@@ -1,6 +1,7 @@
 const chaiHttp = require("chai-http");
 const chai = require("chai");
 const { expect } = require('chai');
+const mongoose = require('mongoose');
 
 const app = require("../server");
 const { getDb, dbModels } = require("../config/database.config")
@@ -15,11 +16,13 @@ const userDetails = {
   email: "adeola@gmail.com",
   password: "111111q"
 }
-let token
 const questionDetails = {
   title: "Async Await with Callbacks",
   content: "How should I implement an async-await callback function"
 }
+let token
+let questionId
+const fakeQuestionId = mongoose.Types.ObjectId()
 
 describe("Questions", () => {
   before(async () => {
@@ -36,6 +39,7 @@ describe("Questions", () => {
   describe("Create a Question", () => {
     it("Should successfully create a new question", async () => {
       const res = await chai.request(app).post("/ask-question").set('Authorization', `Bearer ${token}`).send(questionDetails)
+      questionId = res.body.data._id
       expect(res.status).to.eqls(201)
       expect(res.body.success).to.eqls(true)
     })
@@ -54,6 +58,19 @@ describe("Questions", () => {
       expect(res.status).to.eqls(200)
       expect(res.body.success).to.eqls(true)
       expect(res.body.data).to.be.an("array")
+    })
+
+    it("Should fetch a question by ID", async () => {
+      const res = await chai.request(app).get(`/question/${questionId}`)
+      expect(res.status).to.eqls(200)
+      expect(res.body.success).to.eqls(true)
+      expect(res.body.data).to.be.an("object")
+    })
+
+    it("Should throw an error for incorrect question ID", async () => {
+      const res = await chai.request(app).get(`/question/${fakeQuestionId}`)
+      expect(res.status).to.eqls(400)
+      expect(res.body.success).to.eqls(false)
     })
   })
 })
