@@ -73,4 +73,32 @@ describe("Questions", () => {
       expect(res.body.success).to.eqls(false)
     })
   })
+
+  describe("Vote Question", () => {
+    it("Should successfully upvote a question", async () => {
+      const res = await chai.request(app).put(`/vote-question/${questionId}`)
+        .set('Authorization', `Bearer ${token}`).send({ status: 1 })
+
+      expect(res.status).to.eqls(200)
+      expect(res.body.success).to.eqls(true)
+      expect(res.body.data).to.be.an("object")
+    })
+
+    it("Should throw an error for incorrect question ID", async () => {
+      const res = await chai.request(app).put(`/vote-question/${fakeQuestionId}`)
+        .set('Authorization', `Bearer ${token}`).send({ status: 1 })
+
+      expect(res.status).to.eqls(400)
+      expect(res.body.success).to.eqls(false)
+    })
+
+    it("Should throw an error for null input", async () => {
+      const res = await chai.request(app).put(`/vote-question/${questionId}`)
+        .set('Authorization', `Bearer ${token}`).send({ status: null })
+
+      expect(res.status).to.eqls(400)
+      expect(res.body.success).to.eqls(false)
+      expect(res.body.message).to.eqls("Question Vote Can Not Be Empty")
+    })
+  })
 })
