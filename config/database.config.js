@@ -10,7 +10,7 @@ let dbConnection
 let dbModels = {}
 
 function initDb() {
-	mongoose.connect(db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((db) => {
+	mongoose.connect(db_url, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true }).then((db) => {
 		dbConnection = db
 		console.log("Successfully connected to the database 😃");
 	}).catch(err => {
